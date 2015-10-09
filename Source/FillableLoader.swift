@@ -337,7 +337,7 @@ public class FillableLoader: UIView {
         baseLayer.mask = maskingLayer
         
         shapeLayer.fillColor = loaderColor?.CGColor
-        shapeLayer.lineWidth = 0.2
+        shapeLayer.lineWidth = 0
         shapeLayer.strokeColor = UIColor.blackColor().CGColor
         shapeLayer.frame = loaderView.bounds
         oldYPoint = rectSize + extraHeight
