@@ -16,7 +16,7 @@ public class FillableLoader: UIView {
     internal var animate: Bool = false
     internal var extraHeight: CGFloat = 0
     internal var oldYPoint: CGFloat = 0
-    internal let mainBgColor = UIColor(white: 0.2, alpha: 0.6)
+    internal var mainBgColor = UIColor(white: 0.2, alpha: 0.6)
     
     // MARK: Public Variables
     
@@ -189,6 +189,7 @@ public class FillableLoader: UIView {
     */
     public static func createLoaderView(path thePath: CGPath, size: CGSize) -> Self {
         let loader = self.init()
+        loader.mainBgColor = UIColor.clearColor()
         loader.size = size
         loader.initialSetup()
         loader.addPath(thePath)
@@ -220,7 +221,16 @@ public class FillableLoader: UIView {
             self.frame.size = size
             
             defaultValues()
+//            duration = 10.0
+//            backgroundColor = UIColor.clearColor()
+//            loaderColor = UIColor(red: 0.41, green: 0.728, blue: 0.892, alpha: 1.0)
+//            loaderBackgroundColor = UIColor.whiteColor()
+            loaderStrokeColor = UIColor.clearColor()
+            loaderStrokeWidth = 0
+            loaderAlpha = 1.0
+            cornerRadius = 0.0
 
+            
             loaderView.frame.size = size
             loaderView.center = self.center
             loaderView.layer.cornerRadius = cornerRadius
@@ -252,9 +262,6 @@ public class FillableLoader: UIView {
             //Initially hidden
             hidden = true
         }
-        
-        loaderView.layer.borderWidth = 2
-        loaderView.layer.borderColor = UIColor.blueColor().colorWithAlphaComponent(0.2).CGColor
     }
     
     internal func addPath(thePath: CGPath) {

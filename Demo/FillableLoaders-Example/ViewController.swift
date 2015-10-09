@@ -32,8 +32,9 @@ class ViewController: UIViewController {
         loader.frame.origin = CGPoint(x: 100, y: 100)
         
         startAndStopTest()
+
         loader.layer.borderColor = UIColor.redColor().colorWithAlphaComponent(0.2).CGColor
-        loader.layer.borderWidth = 10
+        loader.layer.borderWidth = 2
     }
     
     func startAndStopTest() {
