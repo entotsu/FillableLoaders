@@ -43,7 +43,6 @@ public class WavesLoader: FillableLoader {
     
     public func stopAnimation() {
         animate = false
-        self.shapeLayer.removeAnimationForKey("shape")
     }
     
     

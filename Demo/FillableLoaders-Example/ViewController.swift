@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         NSTimer.schedule(repeatInterval: 6) { timer in
             self.loader.startAnimation()
             
-            NSTimer.schedule(delay: 3) { timer in
+            NSTimer.schedule(delay: 3.34) { timer in
                 self.loader.stopAnimation()
             }
         }
