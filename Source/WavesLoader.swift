@@ -34,7 +34,7 @@ public class WavesLoader: FillableLoader {
         let waveAnimation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "path")
         waveAnimation.values = shapesArray(7)
         waveAnimation.duration = 2.0
-        waveAnimation.removedOnCompletion = false
+        waveAnimation.removedOnCompletion = true
         waveAnimation.fillMode = kCAFillModeForwards
         waveAnimation.delegate = self
         waveAnimation.setValue("shape", forKey: "animation")
@@ -103,18 +103,24 @@ public class WavesLoader: FillableLoader {
     //MARK: Animations Delegate
     
     override public func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        if !animate { return }
         let key = anim.valueForKey("animation") as! String
         if key == "up" {
+            if !animate { return }
             startMoving(false)
         }
         if key == "down" {
+            if !animate { return }
             startMoving(true)
         }
         if key == "shape" {
+            if !animate {
+                shapeLayer.removeAnimationForKey("shape")
+                return
+            }
             startWaving()
         }
         if key == "rotation" {
+            if !animate { return }
             startswinging()
         }
     }

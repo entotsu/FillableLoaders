@@ -160,6 +160,44 @@ public class FillableLoader: UIView {
         loader.addPath(thePath)
         return loader
     }
+
+    var size: CGSize?
+    
+    
+    /**
+    # just make a loader view
+    
+    ## make
+    ``` swift
+    loader = WavesLoader.createLoaderView(path: path(), size: CGSize(width: 50, height: 50))
+    loader.progress = 0.5
+    view.addSubview(loader)
+    loader.frame.origin = CGPoint(x: 100, y: 100)
+    ```
+
+    ## start animation
+    ``` swift
+    loader.startAnimation()
+    loader.progress = 0.9
+    ```
+
+    ## stop animation
+    ``` swift
+    loader.stopAnimation()
+    ```
+
+    */
+    public static func createLoaderView(path thePath: CGPath, size: CGSize) -> Self {
+        let loader = self.init()
+        loader.size = size
+        loader.initialSetup()
+        loader.addPath(thePath)
+        loader.progressBased = true
+        loader.showLoader()
+        return loader
+    }
+
+    
     
     /**
     Creates a progress based loader with the given path
@@ -177,26 +215,46 @@ public class FillableLoader: UIView {
     }
     
     internal func initialSetup() {
-        //Setting up frame
-        let window = UIApplication.sharedApplication().delegate?.window!
-        self.frame = window!.frame
-        self.center = CGPointMake(CGRectGetMidX(window!.bounds), CGRectGetMidY(window!.bounds))
-        window!.addSubview(self)
         
-        //Initial Values
-        defaultValues()
+        if let size: CGSize = self.size {
+            self.frame.size = size
+            
+            defaultValues()
+
+            loaderView.frame.size = size
+            loaderView.center = self.center
+            loaderView.layer.cornerRadius = cornerRadius
+            rectSize = size.height
+
+            
+            self.addSubview(loaderView)
+            
+            hidden = true
+        }
+        else {
+            //Setting up frame
+            let window = UIApplication.sharedApplication().delegate?.window!
+            self.frame = window!.frame
+            self.center = CGPointMake(CGRectGetMidX(window!.bounds), CGRectGetMidY(window!.bounds))
+            window!.addSubview(self)
+            
+            //Initial Values
+            defaultValues()
+            
+            //Setting up loaderView
+            loaderView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, rectSize)
+            loaderView.center = CGPointMake(CGRectGetWidth(frame)/2, CGRectGetHeight(frame)/2)
+            loaderView.layer.cornerRadius = cornerRadius
+            
+            //Add loader to its superview
+            self.addSubview(loaderView)
+            
+            //Initially hidden
+            hidden = true
+        }
         
-        //Setting up loaderView
-        loaderView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, rectSize)
-        loaderView.center = CGPointMake(CGRectGetWidth(frame)/2, CGRectGetHeight(frame)/2)
-        loaderView.layer.cornerRadius = cornerRadius
-        
-        //Add loader to its superview
-        
-        self.addSubview(loaderView)
-        
-        //Initially hidden
-        hidden = true
+        loaderView.layer.borderWidth = 2
+        loaderView.layer.borderColor = UIColor.blueColor().colorWithAlphaComponent(0.2).CGColor
     }
     
     internal func addPath(thePath: CGPath) {

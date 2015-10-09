@@ -22,18 +22,43 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        loader = WavesLoader.showLoaderWithPath(path())
-        loader.progressBased = true
-        loader.progress = 0.5
         setupSubviews()
+
+        // This will don't "addSubview".
+        // This just make view.
+        loader = WavesLoader.createLoaderView(path: path(), size: CGSize(width: 50, height: 50))
+        loader.progress = 0.5
+        view.addSubview(loader)
+        loader.frame.origin = CGPoint(x: 100, y: 100)
         
-        loader.showLoader()
+        startAndStopTest()
+        loader.layer.borderColor = UIColor.redColor().colorWithAlphaComponent(0.2).CGColor
+        loader.layer.borderWidth = 10
+    }
+    
+    func startAndStopTest() {
         
-        NSTimer.schedule(repeatInterval: 6) { timer in
+        NSTimer.schedule(delay: 3.34) { _ in
             self.loader.startAnimation()
             
-            NSTimer.schedule(delay: 3.34) { timer in
-                self.loader.stopAnimation()
+            NSTimer.schedule(delay: 3.34) { _ in
+                self.loader.progress = 0.9
+                
+                NSTimer.schedule(delay: 3.34) { _ in
+                    self.loader.progress = 0.2
+                    
+                    NSTimer.schedule(delay: 3.34) { _ in
+                        self.loader.progress = 0.4
+                        
+                        NSTimer.schedule(delay: 3.34) { _ in
+                            self.loader.stopAnimation()
+                            
+                            NSTimer.schedule(delay: 3) { _ in
+                                self.startAndStopTest()
+                            }
+                        }
+                    }
+                }
             }
         }
     }
