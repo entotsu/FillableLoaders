@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     
     var segmentedControl: UISegmentedControl = UISegmentedControl()
     var button: UIButton = UIButton()
-    var loader: FillableLoader = FillableLoader()
+    var loader: WavesLoader = WavesLoader()
     var firstLogo: Bool = true
     
     override func viewDidLoad() {
@@ -23,7 +23,19 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         loader = WavesLoader.showLoaderWithPath(path())
+        loader.progressBased = true
+        loader.progress = 0.5
         setupSubviews()
+        
+        loader.showLoader()
+        
+        NSTimer.schedule(repeatInterval: 6) { timer in
+            self.loader.startAnimation()
+            
+            NSTimer.schedule(delay: 3) { timer in
+                self.loader.stopAnimation()
+            }
+        }
     }
     
     func setupSubviews() {
@@ -68,12 +80,6 @@ class ViewController: UIViewController {
     func presentFillableLoaderAtIndex(index: Int) {
         loader.removeLoader(animated: false)
         switch index {
-        case 1:
-            loader = PlainLoader.showLoaderWithPath(path())
-        case 2:
-            loader = SpikeLoader.showLoaderWithPath(path())
-        case 3:
-            loader = RoundedLoader.showLoaderWithPath(path())
         default:
             loader = WavesLoader.showLoaderWithPath(path())
         }
@@ -83,10 +89,27 @@ class ViewController: UIViewController {
     }
     
     func path() -> CGPath{
-        return firstLogo ? Paths.twitterPath() : Paths.githubPath()
+        return firstLogo ? Paths.smallBoxPath() : Paths.githubPath()
     }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+}
+
+
+extension NSTimer {
+    class func schedule(delay delay: NSTimeInterval, handler: NSTimer! -> Void) -> NSTimer {
+        let fireDate = delay + CFAbsoluteTimeGetCurrent()
+        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, fireDate, 0, 0, 0, handler)
+        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
+        return timer
+    }
+    
+    class func schedule(repeatInterval interval: NSTimeInterval, handler: NSTimer! -> Void) -> NSTimer {
+        let fireDate = interval + CFAbsoluteTimeGetCurrent()
+        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, fireDate, interval, 0, 0, handler)
+        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
+        return timer
     }
 }

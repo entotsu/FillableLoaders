@@ -41,6 +41,11 @@ public class WavesLoader: FillableLoader {
         shapeLayer.addAnimation(waveAnimation, forKey: "shape")
     }
     
+    public func stopAnimation() {
+        animate = false
+        self.shapeLayer.removeAnimationForKey("shape")
+    }
+    
     
     //MARK: Waves
     

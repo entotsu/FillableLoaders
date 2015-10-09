@@ -10,8 +10,21 @@ import Foundation
 import UIKit
 
 struct Paths {
+    
+    static func smallBoxPath() -> CGPath {
+        let height: CGFloat = 20
+        let width: CGFloat = 40
+        let path = CGPathCreateMutable()
+        CGPathMoveToPoint(path, nil, 0, height/2)
+        CGPathAddLineToPoint(path, nil, width, height/2)
+        CGPathAddLineToPoint(path, nil, width, height*2)
+        CGPathAddLineToPoint(path, nil, 0, height*2)
+        CGPathCloseSubpath(path)
+        return path
+    }
+    
     static func twitterPath() -> CGPath {
-        //Created with PaintCode
+        //Created with PaintCodez
         let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(190, 281))
         bezierPath.addCurveToPoint(CGPointMake(142, 329), controlPoint1: CGPointMake(163.49, 281), controlPoint2: CGPointMake(142, 302.49))

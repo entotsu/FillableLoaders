@@ -108,7 +108,7 @@ public class FillableLoader: UIView {
             loaderView.layer.cornerRadius = newValue
         }
     }
-
+    
     /// Loader fill progress from 0.0 to 1.0 . It will automatically fire an animation to update the loader fill progress (Default: 0.0)
     public var progress: CGFloat {
         get { return _progress }
@@ -121,7 +121,7 @@ public class FillableLoader: UIView {
     
     
     // MARK: Initializers Methods
-
+    
     /**
     Creates and SHOWS a loader with the given path
     
@@ -220,8 +220,11 @@ public class FillableLoader: UIView {
     */
     public func showLoader() {
         hidden = false
-        animate = true
         generateLoader()
+    }
+    
+    public func startAnimation() {
+        animate = true
         startAnimating()
     }
     
@@ -277,7 +280,7 @@ public class FillableLoader: UIView {
         loaderView.layer.addSublayer(baseLayer)
         baseLayer.addSublayer(shapeLayer)
     }
-
+    
     internal func defaultValues() {
         duration = 10.0
         backgroundColor = UIColor.clearColor()
@@ -315,7 +318,7 @@ public class FillableLoader: UIView {
         shapeLayer.addAnimation(progressAnimation, forKey: "progress")
         oldYPoint = yPoint
     }
-
+    
     internal func startswinging() {
         let swingAnimation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         swingAnimation.values = [0, randomAngle(), -randomAngle(), randomAngle(), -randomAngle(), randomAngle(), 0]
