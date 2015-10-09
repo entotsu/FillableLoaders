@@ -23,6 +23,37 @@ struct Paths {
         return path
     }
     
+    static func heartPath(size size: CGSize = CGSize(width: 84, height: 80)) -> CGPath {
+                
+        //// Bezier Drawing
+        let bezierPath = UIBezierPath()
+
+        bezierPath.moveToPoint(CGPointMake(size.width/2, size.height * 74.5/80))
+
+        bezierPath.addCurveToPoint(CGPointMake(size.width * 8/84, size.height * 40/80),
+            controlPoint1: CGPointMake(size.width * 42.5/84, size.height * 74.5/80),
+            controlPoint2: CGPointMake(size.width * 20/84, size.height * 55/80))
+
+        bezierPath.addCurveToPoint(CGPointMake(size.width/2, size.height * 11/80),
+            controlPoint1: CGPointMake(size.width * -4/84, size.height * 25/80),
+            controlPoint2: CGPointMake(size.width * 7/84, size.height * -13/80))
+
+        bezierPath.moveToPoint(CGPointMake(size.width/2, size.height * 74.5/80))
+
+        bezierPath.addCurveToPoint(CGPointMake(size.width * (1 - 8/84), size.height * 40/80),
+            controlPoint1: CGPointMake(size.width * (1 - 42.5/84), size.height * 74.5/80),
+            controlPoint2: CGPointMake(size.width * (1 - 20/84), size.height * 55/80))
+        
+        bezierPath.addCurveToPoint(CGPointMake(size.width/2, size.height * 11/80),
+            controlPoint1: CGPointMake(size.width * (1 - -4/84), size.height * 25/80),
+            controlPoint2: CGPointMake(size.width * (1 - 7/84), size.height * -13/80))
+        
+        bezierPath.closePath()
+        bezierPath.miterLimit = 4;
+
+        return bezierPath.CGPath
+    }
+    
     static func twitterPath() -> CGPath {
         //Created with PaintCodez
         let bezierPath = UIBezierPath()
