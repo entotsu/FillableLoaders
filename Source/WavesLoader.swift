@@ -23,26 +23,30 @@ public class WavesLoader: FillableLoader {
     
     // MARK: Animate
     
+    var waitingToStop = false
+    
     internal override func startAnimating() {
+        if waitingToStop { return }
         if !animate { return }
         if swing { startswinging() }
         startWaving()
         startMoving(true)
     }
     
+    public func stopAnimation() {
+        animate = false
+        waitingToStop = true
+    }
+    
     internal func startWaving() {
         let waveAnimation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "path")
         waveAnimation.values = shapesArray(7)
-        waveAnimation.duration = 2.0
+        waveAnimation.duration = 3.0
         waveAnimation.removedOnCompletion = true
         waveAnimation.fillMode = kCAFillModeForwards
         waveAnimation.delegate = self
         waveAnimation.setValue("shape", forKey: "animation")
         shapeLayer.addAnimation(waveAnimation, forKey: "shape")
-    }
-    
-    public func stopAnimation() {
-        animate = false
     }
     
     
@@ -62,7 +66,7 @@ public class WavesLoader: FillableLoader {
         let xMovement: CGFloat = (width/CGFloat(count))*CGFloat(index)
         let initialOrLast: Bool = index == 1 || index == count
         let divisions: CGFloat = 8
-        var variation: CGFloat = 10
+        var variation: CGFloat = 10 / 10
         
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, -width, height/2)
@@ -103,24 +107,26 @@ public class WavesLoader: FillableLoader {
     //MARK: Animations Delegate
     
     override public func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        waitingToStop = false
         let key = anim.valueForKey("animation") as! String
         if key == "up" {
             if !animate { return }
+            shapeLayer.removeAnimationForKey("up")
             startMoving(false)
         }
         if key == "down" {
             if !animate { return }
+            shapeLayer.removeAnimationForKey("down")
             startMoving(true)
         }
         if key == "shape" {
-            if !animate {
-                shapeLayer.removeAnimationForKey("shape")
-                return
-            }
+            if !animate {return}
+            shapeLayer.removeAnimationForKey("shape")
             startWaving()
         }
         if key == "rotation" {
             if !animate { return }
+            shapeLayer.removeAnimationForKey("rotation")
             startswinging()
         }
     }
