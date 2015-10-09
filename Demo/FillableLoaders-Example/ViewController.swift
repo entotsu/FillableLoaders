@@ -26,7 +26,11 @@ class ViewController: UIViewController {
 
         // This will don't "addSubview".
         // This just make view.
-        loader = WavesLoader.createLoaderView(path: path(), size: CGSize(width: 50, height: 50))
+        loader = WavesLoader.createLoaderView(
+            path: Paths.heartPath(size: CGSize(width: 42, height: 40)),
+            size: CGSize(width: 100, height: 100),
+            color: UIColor.redColor()
+        )
         loader.progress = 0.5
         view.addSubview(loader)
         loader.frame.origin = CGPoint(x: 100, y: 100)

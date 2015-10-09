@@ -187,11 +187,12 @@ public class FillableLoader: UIView {
     ```
 
     */
-    public static func createLoaderView(path thePath: CGPath, size: CGSize) -> Self {
+
+    public static func createLoaderView(path thePath: CGPath, size: CGSize, color: UIColor = UIColor.blueColor()) -> Self {
         let loader = self.init()
         loader.mainBgColor = UIColor.clearColor()
         loader.size = size
-        loader.initialSetup()
+        loader.initialSetup(color)
         loader.addPath(thePath)
         loader.progressBased = true
         loader.showLoader()
@@ -215,7 +216,7 @@ public class FillableLoader: UIView {
         return loader
     }
     
-    internal func initialSetup() {
+    internal func initialSetup(color: UIColor = UIColor.blueColor()) {
         
         if let size: CGSize = self.size {
             self.frame.size = size
@@ -223,7 +224,7 @@ public class FillableLoader: UIView {
             defaultValues()
 //            duration = 10.0
 //            backgroundColor = UIColor.clearColor()
-//            loaderColor = UIColor(red: 0.41, green: 0.728, blue: 0.892, alpha: 1.0)
+            loaderColor = color
 //            loaderBackgroundColor = UIColor.whiteColor()
             loaderStrokeColor = UIColor.clearColor()
             loaderStrokeWidth = 0
